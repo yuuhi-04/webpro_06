@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>備品貸出管理</title>
+</head>
+<body>
+    <h1>備品管理パネル</h1>
+
+    <div class="asset-list">
+        <% assets.forEach(function(asset) { %>
+        <div style="border: 1px solid #ccc; margin: 10px; padding: 10px;">
+            <h3>
+                <% if (asset.status === "available") { %>
+                    <img src="/public/check.svg" width="20"> 在庫あり
+                <% } else { %>
+                    <img src="/public/warning.svg" width="20"> 貸出中
+                <% } %>
+                ：<%= asset.name %>
+            </h3>
+            
+            <% if (asset.status === "available") { %>
+                <form action="/assets/borrow" method="POST">
+                    <input type="hidden" name="id" value="<%= asset.id %>">
+                    借用者名：<input type="text" name="user" required>
+                    <button type="submit">借りる</button>
+                </form>
+            <% } else { %>
+                <p>借用者：<%= asset.user %></p>
+                <form action="/assets/return" method="POST">
+                    <input type="hidden" name="id" value="<%= asset.id %>">
+                    <button type="submit">返却する</button>
+                </form>
+            <% } %>
+        </div>
+        <% }); %>
+    </div>
+</body>
+</html>

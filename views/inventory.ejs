@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>在庫管理システム</title>
+    <link rel="stylesheet" href="/public/style.css"> </head>
+<body>
+    <h1>在庫管理一覧</h1>
+    
+    <fieldset>
+        <legend>新規在庫登録</legend>
+        <form action="/inventory/add" method="POST"> 商品名：<input type="text" name="name" required><br>
+            数量：<input type="number" name="quantity" value="0" min="0"><br>
+            <button type="submit">登録</button>
+        </form>
+    </fieldset>
+
+    <hr>
+
+    <table border="1">
+        <tr>
+            <th>商品名</th>
+            <th>在庫数</th>
+            <th>操作</th>
+        </tr>
+        <% items.forEach(function(item) { %>
+        <tr>
+            <td><%= item.name %></td>
+            <td><%= item.quantity %></td>
+            <td>
+                <form action="/inventory/delete" method="POST" style="display:inline;">
+                    <input type="hidden" name="id" value="<%= item.id %>">
+                    <button type="submit">削除</button>
+                </form>
+            </td>
+        </tr>
+        <% }); %>
+    </table>
+</body>
+</html>

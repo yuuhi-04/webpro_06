@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>イベント出席管理</title>
+</head>
+<body>
+    <h1>参加者名簿</h1>
+
+    <form action="/attendees/post" method="POST"> 氏名：<input type="text" name="name" required>
+        <button type="submit">追加</button>
+    </form>
+
+    <ul>
+        <% attendees.forEach(function(person) { %>
+        <li>
+            <%= person.name %>：
+            <strong><%= person.isPresent ? "出席済" : "欠席" %></strong>
+            <form action="/attendees/update" method="POST" style="display:inline;">
+                <input type="hidden" name="id" value="<%= person.id %>">
+                <button type="submit">
+                    <%= person.isPresent ? "未出席に戻す" : "出席にする" %>
+                </button>
+            </form>
+        </li>
+        <% }); %>
+    </ul>
+</body>
+</html>
